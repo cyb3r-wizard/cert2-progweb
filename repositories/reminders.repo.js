@@ -123,5 +123,4 @@ function removeReminder(id){
     return true;
 }
 
-
 export { getSortedReminders, createReminder,updateReminder,removeReminder }
