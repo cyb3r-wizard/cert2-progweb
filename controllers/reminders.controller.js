@@ -1,51 +1,20 @@
-import { reminders } from "../index.js";
-import crypto from "node:crypto";
+import { getSortedReminders, createReminder } from "#repositories/reminders.repo.js";
+import { reminders } from "#index.js";
 
-const remindersGet = (req, res) => {
-    const sortedReminders = [...reminders].sort((a, b) => {
-      return (b.important === true) - (a.important === true);
-    });
-res.status(200).send(sortedReminders);
+
+const remindersGet = async (req, res) => {
+  const sortedReminders = await getSortedReminders();
+  res.status(200).send(sortedReminders);
 }
 
-const remindersPost = (req, res) => {
-    try {
-      let { content, important } = req.body;
-  
-      if (typeof content !== "string") {
-        return res.status(400).json({ message: "El mensaje debe ser un string" });
-      }
-      let contSpace = content.trim();
-      if (contSpace.length <= 0) {
-        return res
-          .status(400)
-          .json({ message: "El mensaje no pueden ser sólo espacios" });
-      }
-      if (content.length > 120) {
-        return res.status(400).json({
-          message: "El mensaje es demasiado largo (max. 120 caracteres)",
-        });
-      }
-  
-      if (typeof important === "undefined") {
-        important = false;
-      } else if (typeof important !== "boolean") {
-        return res.status(400).json({
-          message: "Esto no es un booleano!",
-        });
-      }
-  
-      const reminder = {
-        id: crypto.randomUUID(),
-        content: content,
-        createdAt: Date.now(),
-        important: important,
-      };
-      reminders.push(reminder);
-      res.status(201).json(reminder).send();
-    } catch (error) {
-      res.status(400).json({ error: `ERROR: ${error}` });
-    }
+const remindersPost = async (req, res ) => {
+  try{
+    const { content, important} = req.body;
+    const response  = await createReminder(content,important)
+    res.status(201).json(response);
+  }catch(error){
+    res.status(error.status).json({ message: error.message  });
+  }
 }
 
 const remindersPatch = (req, res) => {
