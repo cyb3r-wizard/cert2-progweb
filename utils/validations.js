@@ -12,3 +12,11 @@ const reminderSchema = v.object({
         false
     )
 })
+
+const toEditReminder = v.partial(reminderSchema);
+const toCreateReminder =  v.parser(reminderSchema);
+
+export {
+  toEditReminder, 
+  toCreateReminder
+}

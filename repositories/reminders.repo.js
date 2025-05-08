@@ -8,42 +8,7 @@ async function getSortedReminders(){
     return sortedReminders;
 }
 
-async function createReminder(content, important){
-    const error = new Error("");
-
-    if(!content){
-        error.message = `El mensaje no debe estar vacío`
-        error.status = 400;
-        throw error
-    }
-    if(typeof content !== "string" ){
-        error.message = `El mensaje debe ser un string`
-        error.status = 400;
-        throw error
-    }
-    
-    let contSpace = content.trim();
-    
-    if(contSpace.length <= 0){
-        error.message = `El mensaje no puede ser sólo espacios`
-        error.status = 400;
-        throw error
-    }
-
-    if(content.length >120){
-        error.message = `El mensaje es demasiado largo (max. 120 caracteres)`
-        error.status = 400;
-        throw error
-    }
-    
-    if(typeof important === "undefined"){
-        important = false;
-    }else if (typeof important !== "boolean"){
-        error.message = `Esto no es un booleano`
-        error.status = 400;
-        throw error
-    }
-    
+async function createReminder(content, important){   
     const reminder = {
         id: crypto.randomUUID(),
         content: content,
@@ -65,14 +30,17 @@ function updateReminder(id, important, content){
         throw error;
     }   
 
-    let reminder = reminders[reminderIndex];
+    const reminder = reminders[reminderIndex];
+
 
     if (typeof important !== "undefined") {
+        /*
         if (typeof important !== "boolean") {
             error.message = 'Important debe ser booleano'
             error.status = 400
             throw error;
         }
+        */
         reminder.important = important;
     }
 
@@ -96,8 +64,11 @@ function updateReminder(id, important, content){
             error.status = 400;
             throw error
         }
+
+
         reminder.content = content;
     }
+
     if (typeof reminder.completed === "undefined") {
         reminder.completed = false;
     }
