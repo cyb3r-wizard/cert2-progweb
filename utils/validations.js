@@ -3,6 +3,7 @@ import * as v from "valibot";
 const reminderSchema = v.object({
     content: v.pipe(
         v.string(),
+        v.transform(String),
         v.trim(),
         v.minLength(1),
         v.maxLength(255)
@@ -13,7 +14,9 @@ const reminderSchema = v.object({
     )
 })
 
-const toEditReminder = v.partial(reminderSchema);
+const reminderPatchSchema = v.partial(reminderSchema);
+
+const toEditReminder = v.parser(reminderPatchSchema);
 const toCreateReminder =  v.parser(reminderSchema);
 
 export {

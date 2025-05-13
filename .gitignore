@@ -1,3 +1,6 @@
 node_modules
 rubrica_index.js
 .qodo
+*.db
+generated/prisma
+.env

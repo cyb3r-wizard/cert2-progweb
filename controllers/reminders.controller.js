@@ -19,35 +19,23 @@ const remindersPost = async (req, res) => {
     res.status(error.status).json({ message:error.message})
   }
 }
-/*
 
 const remindersPatch = async (req,res) =>{
+  const { id } = req.params;
+  console.log(id);
   try{
-    const { id } = req.params;
-    const { important, content } = req.body;
-    const reminder = updateReminder(id, important,content);
-    res.status(200).json(reminder);  
-  }catch(error){
-    res.status(error.status).json({ message:error.message})
-  }
-}
-
-*/
-const remindersPatch = async (req,res) =>{
-  try{
-    const { id } = req.params;
     const slayer = toEditReminder(req.body)
-    const { important, content } = slayer;
-    const reminder = updateReminder(id, important,content);
-    res.status(200).json(reminder);  
+    const reminder = await updateReminder(id, slayer);
+    console.log(reminder);
+    res.status(200).json(reminder);
   }catch(error){
     if(error instanceof ValiError){
-      res.status(400).json({ message:  error?.issues?.map(issue => issue.message) });
+      return res.status(400).send();
     }
-    res.status(error.status).json({ message:error.message})
+    console.error(error)
+    return res.status(error.status).send();
   }
 }
-
 
 const remindersDelete = (req, res) => {
     try {
