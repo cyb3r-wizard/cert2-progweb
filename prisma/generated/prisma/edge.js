@@ -125,7 +125,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\Alumnos\\Desktop\\elmonoloco\\cert2-progweb-main\\prisma\\generated\\prisma",
+      "value": "C:\\Users\\TI\\Desktop\\elmonoloco (1)\\cert2-progweb-main\\prisma\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -139,12 +139,11 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\Alumnos\\Desktop\\elmonoloco\\cert2-progweb-main\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\TI\\Desktop\\elmonoloco (1)\\cert2-progweb-main\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../..",
   "clientVersion": "6.7.0",
@@ -153,7 +152,6 @@ const config = {
     "db"
   ],
   "activeProvider": "sqlite",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
