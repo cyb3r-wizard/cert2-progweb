@@ -16,7 +16,7 @@ const remindersPost = async (req, res) => {
     if(error instanceof ValiError){
       res.status(400).json({ message:  error?.issues?.map(issue => issue.message) });
     }
-    res.status(error.status).json({ message:error.message})
+    res.status(500).json({ message:error.message})
   }
 }
 

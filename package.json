@@ -10,7 +10,8 @@
 		"start": "node index.js",
 		"dev": "node --watch index.js",
 		"dev:unocss": "unocss --watch",
-		"test": "npx vitest --watch --ui"
+		"test": "npx vitest --watch --ui",
+		"seed": "node prisma/seed.js"
 	},
 	"dependencies": {
 		"@prisma/client": "^6.7.0",
@@ -28,5 +29,8 @@
 	},
 	"imports": {
 		"#*": "./*"
+	},
+	"prisma": {
+  	"seed": "node /seed.js"
 	}
 }
