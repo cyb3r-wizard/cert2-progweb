@@ -1,31 +1,62 @@
-import { users } from "#index.js";
+import { client } from "#prisma/client.js";
 import crypto, { randomBytes } from "node:crypto";
+
+
+async function validateToken(token){
+  let usr = await client.user.findUnique( { where:{token:token} } )
+  return usr
+}
+
+async function createToken(id) {
+  let token = randomBytes(48).toString("hex");
+  let res = await client.user.update( { where:{id:id},data:{token:token}});
+  return res.token;
+}
+
 async function login(username, password) {
   if (!username || !password) {
     const err = new Error("Formato de petición incorrecto");
     err.status = 400;
     throw err;
   }
-  let user = users.find((user) => user.username === username);
-  if (!user) {
+  
+  let usr = await client.user.findUnique( { where:{username:username} } )
+  if (!usr) {
     const err = new Error("Credenciales inválidas. Usuario No Pillado");
     err.status = 401;
     throw err;
   }
-  const [salt, hash] = user.password.split(":");
+
+  const [salt, hash] = usr.password.split(":");
   const derivedKey = crypto.scryptSync(password, salt, 64);
   if (derivedKey.toString("hex") !== hash) {
     const err = new Error("Credenciales inválidas. Usuario No Pillado");
     err.status = 401;
     throw err;
   }
-  let token = randomBytes(48).toString("hex");
-  user.token = token;
+  
+  let token = await createToken(usr.id);
+
   return {
-    username: user.username,
-    name: user.name,
-    token: user.token,
+    username: usr.username,
+    name: usr.name,
+    token: token,
   };
 }
 
-export { login } 
+async function logout(id) {
+  if (!id) {
+    const err = new Error("ID no proporcionado");
+    err.status = 404;
+    throw err;
+  }
+  await client.user.update({
+    where: { id: id },
+    data: { token: null }
+  });
+  return true;
+}
+
+
+
+export { login,validateToken, logout } 

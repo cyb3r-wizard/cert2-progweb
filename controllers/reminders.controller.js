@@ -16,24 +16,22 @@ const remindersPost = async (req, res) => {
     if(error instanceof ValiError){
       res.status(400).json({ message:  error?.issues?.map(issue => issue.message) });
     }
-    res.status(500).json({ message:error.message})
+    res.status(error.status || 500).json({ message:error.message})
   }
 }
 
 const remindersPatch = async (req,res) =>{
   const { id } = req.params;
-  console.log(id);
   try{
     const slayer = toEditReminder(req.body)
     const reminder = await updateReminder(id, slayer);
-    console.log(reminder);
     res.status(200).json(reminder);
   }catch(error){
     if(error instanceof ValiError){
       return res.status(400).send();
     }
     console.error(error)
-    return res.status(error.status).send();
+    return res.status(error.status || 500).send();
   }
 }
 

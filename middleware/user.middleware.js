@@ -1,10 +1,13 @@
-import { users } from "../index.js";
+//import { users } from "../index.js";
+import { validateToken } from "#repositories/users.repo.js";
 
-export const userMiddleware = (req, res, next) => {
+export const userMiddleware = async (req, res, next) => {
   try {
     const no = { message: "Permiso Denegado >:(" };
     const tokenAuthorization = req.get("X-Authorization");
-    const user = users.find((user) => user.token === tokenAuthorization);
+    
+    const user = await validateToken(tokenAuthorization);
+    console.log('user', user)
     if (!tokenAuthorization) {
       return res.status(401).json(no);
     }

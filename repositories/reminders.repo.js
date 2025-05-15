@@ -1,4 +1,3 @@
-import { reminders } from "#index.js";
 import crypto from "node:crypto";
 import { client } from "#prisma/client.js";
 
@@ -11,7 +10,6 @@ async function getSortedReminders() {
 }
 
 async function createReminder(content, important) {
-    console.log(typeof BigInt(Date.now()))
     const reminder = {
         id: crypto.randomUUID(),
         content: content,
@@ -25,41 +23,35 @@ async function createReminder(content, important) {
 
 async function updateReminder(id, update) {
     let { content, important } = update;
-    const rem = await client.reminder.findUnique(id)
-    const reminderIndex = reminders.findIndex(reminder => reminder.id === id);
-    if (reminderIndex === -1) {
-        const error = new Error("Reminder not found");
-        error.status = 404;
-        throw error;
+
+    const rem = await client.reminder.findUnique({ where:{id: id} })
+
+    if(!rem){
+        const err = new Error("Reminder not found");
+        err.status = 404;
+        throw err;
     }
-
-    let reminder = reminders[reminderIndex];
-
+    const data = {}
     if (typeof important !== "undefined") {
-        reminder.important = important;
+        data.important = important;
     }
 
     if (typeof content !== "undefined") {
         content = content.toString();
-        reminder.content = content;
+        data.content = content;
     }
-
-    if (typeof reminder.completed === "undefined") {
-        reminder.completed = false;
-    }
-
+    const reminder = await client.reminder.update({where:{id:id}, data: data })
     return reminder;
 }
 
-function removeReminder(id) {
+async function removeReminder(id) {
     const error = new Error("");
-    let index = reminders.findIndex(reminder => reminder.id === id);
-    if (index === -1) {
+    const rem = await client.reminder.delete({where:{id:id}})
+    if(!rem){
         error.message = "recordatorio no encontrado"
         error.status = 404
         throw error
     }
-    reminders.splice(index, 1);
     return true;
 }
 

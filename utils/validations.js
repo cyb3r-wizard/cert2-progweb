@@ -6,11 +6,22 @@ const reminderSchema = v.object({
         v.transform(String),
         v.trim(),
         v.minLength(1),
-        v.maxLength(255)
+        v.maxLength(120)
     ),
     important: v.optional(
         v.boolean(),
         false
+    )
+})
+
+const userSchema = v.object({
+    username: v.pipe(
+        v.string(),
+        v.transform(String)
+    ),
+    password: v.pipe(
+        v.string(),
+        v.transform(String)
     )
 })
 

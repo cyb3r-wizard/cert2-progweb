@@ -3077,14 +3077,14 @@ export namespace Prisma {
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    username?: string
+    token?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
-    username?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
-    token?: StringFilter<"User"> | string
-  }, "id">
+  }, "id" | "username" | "token">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
