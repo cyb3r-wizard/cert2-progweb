@@ -16,7 +16,7 @@ datasource db {
 
 model Reminder {
   id String @id @default(uuid())
-  createdAt BigInt
+  createdAt DateTime
   content String
   important Boolean
 }

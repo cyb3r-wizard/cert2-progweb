@@ -15,8 +15,8 @@ datasource db {
 }
 
 model Reminder {
-  id        String  @id @default(uuid())
-  createdAt BigInt
+  id        String   @id @default(uuid())
+  createdAt DateTime
   content   String
   important Boolean
 }

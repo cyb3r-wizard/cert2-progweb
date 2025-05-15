@@ -11,20 +11,21 @@ async function getSortedReminders() {
 }
 
 async function createReminder(content, important) {
+    console.log(typeof BigInt(Date.now()))
     const reminder = {
         id: crypto.randomUUID(),
         content: content,
         createdAt: new Date(),
         important: important,
     };
-
     return client.reminder.create({
         data: reminder,
     });
 }
 
-function updateReminder(id, update) {
+async function updateReminder(id, update) {
     let { content, important } = update;
+    const rem = await client.reminder.findUnique(id)
     const reminderIndex = reminders.findIndex(reminder => reminder.id === id);
     if (reminderIndex === -1) {
         const error = new Error("Reminder not found");
