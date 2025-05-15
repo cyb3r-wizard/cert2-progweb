@@ -35,11 +35,14 @@ const remindersPatch = async (req,res) =>{
   }
 }
 
-const remindersDelete = (req, res) => {
+const remindersDelete = async (req, res) => {
     try {
       const { id } = req.params;
-      removeReminder(id)
-      return res.status(204).send();
+      const reminderRemoved = await removeReminder(id);
+      if(reminderRemoved){
+        return res.status(204).send();
+      }
+      return res.status(404).send();
     } catch (error) {
       res.status(error.status || 500).json({ message:error.message})
     }

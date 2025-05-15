@@ -44,14 +44,15 @@ async function login(username, password) {
   };
 }
 
-async function logout(id) {
-  if (!id) {
+async function logout(token) {
+  console.log("token Logout", String(token))
+  if (!token) {
     const err = new Error("ID no proporcionado");
     err.status = 404;
     throw err;
   }
   await client.user.update({
-    where: { id: id },
+    where: { token: token },
     data: { token: null }
   });
   return true;

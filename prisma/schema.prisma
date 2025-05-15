@@ -16,7 +16,7 @@ datasource db {
 
 model Reminder {
   id String @id @default(uuid())
-  createdAt DateTime
+  createdAt BigInt
   content String
   important Boolean
 }
@@ -26,5 +26,5 @@ model User {
   username String @unique
   name String
   password String
-  token String @unique
+  token String? @unique
 }

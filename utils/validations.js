@@ -29,8 +29,10 @@ const reminderPatchSchema = v.partial(reminderSchema);
 
 const toEditReminder = v.parser(reminderPatchSchema);
 const toCreateReminder =  v.parser(reminderSchema);
+const toValidateUser = v.parser(userSchema);
 
 export {
   toEditReminder, 
-  toCreateReminder
+  toCreateReminder,
+  toValidateUser
 }
