@@ -1,11 +1,17 @@
 import { login, logout } from "#repositories/users.repo.js";
+import { toValidateUser } from "#utils/validations.js"
+import { ValiError } from "valibot";
 
 const userPost = async (req, res) => {
   try {
-    const { password, username } = req.body;
+    const slayer = toValidateUser(req.body);
+    const { password, username } = slayer;
     let user = await login(username, password);
     return res.status(200).json(user);
   } catch (err) {
+    if(err instanceof ValiError){
+      res.status(400).json({ message:  err?.issues?.map(issue => issue.message) });
+    }
     return res.status(err.status || 500).json({ message: err.message });
   }
 }

@@ -26,16 +26,11 @@ async function createReminder(content, important) {
     }catch(error){
         throw error
     }
-
 }
 
 async function updateReminder(id, update) {
     let { content, important } = update;
-
     const rem = await client.reminder.findUnique({ where:{id: id} })
-
-    //const rem = reminderPrev.map(reminder => ({ ...reminder, createdAt:Number(reminder.createdAt)}))
-
     if(!rem){
         const err = new Error("Reminder not found");
         err.status = 404;
