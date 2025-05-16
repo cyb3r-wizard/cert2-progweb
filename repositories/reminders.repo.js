@@ -29,25 +29,29 @@ async function createReminder(content, important) {
 }
 
 async function updateReminder(id, update) {
-    let { content, important } = update;
-    const rem = await client.reminder.findUnique({ where:{id: id} })
-    if(!rem){
-        const err = new Error("Reminder not found");
-        err.status = 404;
-        throw err;
+    try{
+        let { content, important } = update;
+        const rem = await client.reminder.findUnique({ where:{id: id} })
+        if(!rem){
+            const err = new Error("Reminder not found");
+            err.status = 404;
+            throw err;
+        }
+        const data = {}
+        if (typeof important !== "undefined") {
+            data.important = important;
+        }
+    
+        if (typeof content !== "undefined") {
+            content = content.toString();
+            data.content = content;
+        }
+        const reminder = await client.reminder.update({where:{id:id}, data: data })
+        reminder.createdAt = Number(reminder.createdAt);
+        return reminder;
+    }catch(error){
+        throw error;
     }
-    const data = {}
-    if (typeof important !== "undefined") {
-        data.important = important;
-    }
-
-    if (typeof content !== "undefined") {
-        content = content.toString();
-        data.content = content;
-    }
-    const reminder = await client.reminder.update({where:{id:id}, data: data })
-    reminder.createdAt = Number(reminder.createdAt);
-    return reminder;
 }
 
 async function removeReminder(id) {

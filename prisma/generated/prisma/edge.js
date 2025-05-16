@@ -130,7 +130,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\TI\\Desktop\\elmonoloco\\cert2-progweb-main\\prisma\\generated\\prisma",
+      "value": "/home/kebrus/Documentos/proyectos/certamenProgWeb/cert2-progweb/prisma/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -139,17 +139,16 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "debian-openssl-1.1.x",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\TI\\Desktop\\elmonoloco\\cert2-progweb-main\\prisma\\schema.prisma",
+    "sourceFilePath": "/home/kebrus/Documentos/proyectos/certamenProgWeb/cert2-progweb/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null,
-    "schemaEnvPath": "../../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../..",
   "clientVersion": "6.7.0",

@@ -1,15 +1,18 @@
 import { getSortedReminders, createReminder,updateReminder,removeReminder } from "#repositories/reminders.repo.js";
-import { toEditReminder, toCreateReminder } from "#utils/validations.js";
 import { ValiError } from "valibot";
 const remindersGet = async (req, res) => {
-  const sortedReminders = await getSortedReminders();
-  res.status(200).send(sortedReminders);
+  try{
+    const sortedReminders = await getSortedReminders();
+    res.status(200).send(sortedReminders);
+  }catch(error){
+    res.status(error.status || 500).json('Error al obtener Recordatorios')
+  }
+
 }
 
 const remindersPost = async (req, res) => {
   try{
-    const slayer = toCreateReminder(req.body);
-    const { content, important} = slayer;
+    const { content, important} = req.body;
     const response  = await createReminder(content,important)
     res.status(201).json(response);
   }catch(error){
@@ -23,8 +26,7 @@ const remindersPost = async (req, res) => {
 const remindersPatch = async (req,res) =>{
   const { id } = req.params;
   try{
-    const slayer = toEditReminder(req.body)
-    const reminder = await updateReminder(id, slayer);
+    const reminder = await updateReminder(id, req.body);
     res.status(200).json(reminder);
   }catch(error){
     if(error instanceof ValiError){

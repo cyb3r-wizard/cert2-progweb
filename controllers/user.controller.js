@@ -4,8 +4,8 @@ import { ValiError } from "valibot";
 
 const userPost = async (req, res) => {
   try {
-    const slayer = toValidateUser(req.body);
-    const { password, username } = slayer;
+    //const slayer = toValidateUser(req.body);
+    const { password, username } = req.body;
     let user = await login(username, password);
     return res.status(200).json(user);
   } catch (err) {

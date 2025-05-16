@@ -5,9 +5,7 @@ export const userMiddleware = async (req, res, next) => {
   try {
     const no = { message: "Permiso Denegado >:(" };
     const tokenAuthorization = req.get("X-Authorization");
-    
     const user = await validateToken(tokenAuthorization);
-    console.log('user', user)
     if (!tokenAuthorization) {
       return res.status(401).json(no);
     }

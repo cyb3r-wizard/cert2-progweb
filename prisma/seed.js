@@ -11,7 +11,6 @@ async function main() {
       token: "",
     },
   });
-  console.log("Usuario creado:", user);
 }
 
 main()

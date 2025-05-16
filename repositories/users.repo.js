@@ -13,13 +13,7 @@ async function createToken(id) {
   return res.token;
 }
 
-async function login(username, password) {
-  if (!username || !password) {
-    const err = new Error("Formato de petición incorrecto");
-    err.status = 400;
-    throw err;
-  }
-  
+async function login(username, password) { 
   let usr = await client.user.findUnique( { where:{username:username} } )
   if (!usr) {
     const err = new Error("Credenciales inválidas. Usuario No Pillado");
@@ -45,7 +39,6 @@ async function login(username, password) {
 }
 
 async function logout(token) {
-  console.log("token Logout", String(token))
   if (!token) {
     const err = new Error("ID no proporcionado");
     err.status = 404;
